@@ -9,17 +9,17 @@
 ##### Populate SQL Tuning Set with queries from cache
 
 ###### All at once
-`DECLARE
-cur dbms_sqltune.SQLSET_CURSOR;
-BEGIN
-OPEN cur FOR
-   SELECT VALUE(P)
-   FROM dbms_sqltune.select_cursor_cache(basic_filter => 
-   'parsing_schema_name = ''<schema_name>'' and sql_text like ''SELECT%''') P;
-   dbms_sqltune.load_sqlset(sqlset_name => '<sts_name>', populate_cursor => cur);
-  CLOSE cur;
-END;
-/`
+`DECLARE  
+cur dbms_sqltune.SQLSET_CURSOR;  
+BEGIN  
+OPEN cur FOR  
+   SELECT VALUE(P)  
+   FROM dbms_sqltune.select_cursor_cache(basic_filter =>  
+   'parsing_schema_name = ''<schema_name>'' and sql_text like ''SELECT%''') P;  
+   dbms_sqltune.load_sqlset(sqlset_name => '<sts_name>', populate_cursor => cur);  
+  CLOSE cur;  
+END;  
+/`  
 
 ###### Incrementally
 `execute dbms_sqltune.capture_cursor_cache_sqlset(-
