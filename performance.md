@@ -1,10 +1,10 @@
 ### SQL Tuning Sets
 
 #### How to delete existing SQL Tuning Set
-    `execute dbms_sqltune.drop_sqlset(sqlset_name=>'sts_name>', sqlset_owner=>'<sts_owner>');`
+    execute dbms_sqltune.drop_sqlset(sqlset_name=>'sts_name>', sqlset_owner=>'<sts_owner>');
 
 #### How to create new SQL Tuning Set
-    `execute dbms_sqltune.create_sqlset(sqlset_name=>'<sts_name>', sqlset_owner=>'<sts_owner>', description=>'<some_description>');`
+    execute dbms_sqltune.create_sqlset(sqlset_name=>'<sts_name>', sqlset_owner=>'<sts_owner>', description=>'<some_description>');
 
 ##### Populate SQL Tuning Set with queries from cache
 
@@ -22,14 +22,14 @@
     /
 
 ###### Incrementally
-    `execute dbms_sqltune.capture_cursor_cache_sqlset(-
+    execute dbms_sqltune.capture_cursor_cache_sqlset(-
        sqlset_name     => '<sts_name>',-
        time_limit      => <seconds, how long to gather information>, -
        repeat_interval => <seconds, the interval between getting data>, -
-       basic_filter    => 'parsing_schema_name = ''<schema_name>'' AND elapsed_time > <time>');`
+       basic_filter    => 'parsing_schema_name = ''<schema_name>'' AND elapsed_time > <time>');
 
 ##### Populate SQL Tuning Set from AWR
-    `DECLARE
+    DECLARE
     cur dbms_sqltune.sqlset_cursor;
     BEGIN
     OPEN cur FOR
@@ -38,10 +38,10 @@
        and parsing_schema_name = ''<schema_name>''' ) P; 
       dbms_sqltune.load_sqlset (sqlset_name => '<sts_name>', populate_cursor => cur); 
     END;
-    /`
+    /
 
 ##### Populate SQL Tuning Set from another SQL Tuning Set
-    `DECLARE cur dbms_sqltune.sqlset_cursor; 
+    DECLARE cur dbms_sqltune.sqlset_cursor; 
     BEGIN 
     OPEN cur FOR
          SELECT VALUE (P)
@@ -49,13 +49,12 @@
       DBMS_SQLTUNE.LOAD_SQLSET(sqlset_name => '<sts_name_target>', populate_cursor => cur);
     CLOSE cur;
     END;
-    /`
+    /
 
 #### How to query SQL Tuning Set
-    `select executions, cpu_time/1000 cpu_in_ms, elapsed_time/1000 elapsed_in_ms, sql_id, substr(sql_text,1,80) 
+    select executions, cpu_time/1000 cpu_in_ms, elapsed_time/1000 elapsed_in_ms, sql_id, substr(sql_text,1,80) 
     from dba_sqlset_statements
     where sqlset_name like '<sts_name>' and sqlset_owner='<sts_owner>'
-    ORDER BY elapsed_time desc;`
+    ORDER BY elapsed_time desc;
 
-or
 
