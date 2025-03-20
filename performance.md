@@ -9,7 +9,7 @@
 ##### Populate SQL Tuning Set with queries from cache
 
 ###### All at once
-   DECLARE  
+   `DECLARE  
    cur dbms_sqltune.SQLSET_CURSOR;  
    BEGIN  
    OPEN cur FOR  
