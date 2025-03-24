@@ -1,4 +1,4 @@
-[SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/edit/main/performance.md#SQL-Tuning-Sets)
+[SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/main/performance.md#SQL-Tuning-Sets)
 
 
 ### SQL Tuning Sets
