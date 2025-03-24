@@ -1,3 +1,6 @@
+[SQL Tuning Sets](#SQL Tuning Sets)
+
+
 ### SQL Tuning Sets
 
 #### How to delete existing SQL Tuning Set
