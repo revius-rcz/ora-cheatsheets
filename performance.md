@@ -16,7 +16,7 @@
 
 [Populate SQL Tuning Set from cache](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Populate-SQL-Tuning-Set-with-queries-from-cache)  
 [Populate SQL Tuning Set from AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Populate-SQL-Tuning-Set-from-AWR)  
-[Populate SQL Tuning Set from AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Populate-SQL-Tuning-Set-from-another-SQL-Tuning-Set)  
+[Populate SQL Tuning Set from another SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Populate-SQL-Tuning-Set-from-another-SQL-Tuning-Set)  
 
 ##### Populate SQL Tuning Set with queries from cache
 
