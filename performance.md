@@ -3,6 +3,11 @@
 
 ### SQL Tuning Sets
 
+[SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#How-to-delete-existing-SQL-Tuning Set)
+[SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Tuning-Sets)
+[SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Tuning-Sets)
+
+
 #### How to delete existing SQL Tuning Set
     execute dbms_sqltune.drop_sqlset(sqlset_name=>'sts_name>', sqlset_owner=>'<sts_owner>');
 
@@ -59,5 +64,12 @@
     from dba_sqlset_statements
     where sqlset_name like '<sts_name>' and sqlset_owner='<sts_owner>'
     ORDER BY elapsed_time desc;
+
+
+### Redo
+
+#### Historical Redo Per Second
+
+    SELECT * FROM DBA_HIST_SYSMETRIC_HISTORY WHERE metric_name='Redo Generated Per Sec' ORDER BY snap_id DESC;  
 
 
