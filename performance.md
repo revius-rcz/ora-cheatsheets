@@ -87,12 +87,15 @@
 ### Automatic Workload Repository
 
 List AWR snapshots  
+
     SELECT snap_id, begin_interval_time begin_snap, end_interval_time end_snap FROM dba_hist_snapshot ORDER BY snap_id;  
 
 PDB related configuration for AWR  
+
     select inst_id, con_id, name, display_value from gv$system_parameter where name in ('awr_pdb_autoflush_enabled', 'awr_snapshot_time_offset') order by inst_id, con_id;  
 
 AWR configuration  
+
     select * from dba_HIST_WR_CONTROL where dbid in (select dbid from v$containers where name != 'PDB$SEED');  
 
 
