@@ -1,12 +1,17 @@
 [SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Tuning-Sets)  
 [Redo](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Redo)  
+[AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Automatic-Workload-Repository)
+[SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Plan-Baselines)
 
 ### SQL Tuning Sets
 
+[List SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#List-SQL-Tuning-Sets)  
 [Delete SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#How-to-delete-existing-SQL-Tuning-Set)  
 [Create SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#How-to-create-new-SQL-Tuning-Set)  
 [Query SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#How-to-query-SQL-Tuning-Set)  
 
+#### List SQL Tuning Sets
+    select name, owner, created, statement_count from dba_sqlset;  
 
 #### How to delete existing SQL Tuning Set
     execute dbms_sqltune.drop_sqlset(sqlset_name=>'sts_name>', sqlset_owner=>'<sts_owner>');
@@ -77,3 +82,19 @@
     SELECT * FROM DBA_HIST_SYSMETRIC_HISTORY WHERE metric_name='Redo Generated Per Sec' ORDER BY snap_id DESC;  
 
 
+### Automatic Workload Repository
+
+List AWR snapshots  
+    SELECT snap_id, begin_interval_time begin_snap, end_interval_time end_snap FROM dba_hist_snapshot ORDER BY snap_id;  
+
+PDB related configuration for AWR  
+    select inst_id, con_id, name, display_value from gv$system_parameter where name in ('awr_pdb_autoflush_enabled', 'awr_snapshot_time_offset') order by inst_id, con_id;  
+
+AWR configuration  
+    select * from dba_HIST_WR_CONTROL where dbid in (select dbid from v$containers where name != 'PDB$SEED');  
+
+
+### SQL Plan Baselines
+
+List SQL Plan Baselines  
+    select * from dba_sql_plan_baselines;  
