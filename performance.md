@@ -1,7 +1,7 @@
 [SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Tuning-Sets)  
 [Redo](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Redo)  
-[AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Automatic-Workload-Repository)
-[SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Plan-Baselines)
+[AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Automatic-Workload-Repository)  
+[SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Plan-Baselines)  
 
 ### SQL Tuning Sets
 
