@@ -102,4 +102,5 @@ AWR configuration
 ### SQL Plan Baselines
 
 List SQL Plan Baselines  
+
     select * from dba_sql_plan_baselines;  
