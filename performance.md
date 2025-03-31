@@ -3,6 +3,8 @@
 [AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Automatic-Workload-Repository)  
 [SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Plan-Baselines)  
 
+---
+
 ### SQL Tuning Sets
 
 [List SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#List-SQL-Tuning-Sets)  
