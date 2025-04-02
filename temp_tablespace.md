@@ -35,6 +35,7 @@ How to identify the Reasons for the Increasing TEMP Tablespace Usage in Oracle 1
 
     SELECT sql_id, SUM(blocks) AS total_blocks FROM v$sort_usage GROUP BY sql_id;  
 
+_
 
     SELECT sql_id, sql_text, disk_reads, buffer_gets, executions FROM v$sql WHERE sql_id IN ( SELECT sql_id FROM v$sort_usage WHERE tablespace = 'TEMP' ) ORDER BY disk_reads DESC;  
 
@@ -73,6 +74,7 @@ How to identify the Reasons for the Increasing TEMP Tablespace Usage in Oracle 1
 
     select min(sample_time), instance_number, user_id, session_id, session_serial#, sql_id,max(TEMP_SPACE_ALLOCATED)/(1024*1024*1024) gig from DBA_HIST_ACTIVE_SESS_HISTORY where sample_time between to_date('22.01.2025 10:20','DD.MM.YYYY HH24:MI') and to_date('22.01.2025 10:50','DD.MM.YYYY HH24:MI') group by instance_number, user_id, session_id, session_serial#, sql_id order by min(sample_time);  
 
+_
 
     SELECT ASH.inst_id,  
       ASH.user_id,  
