@@ -13,6 +13,7 @@
 
 The username is in format **cloud_user_<cluster_name>**, where <cluster_name> was retrieved in previous step  
 
+
 #### Run command with exacli  
 
-    exacli -l <username> -c <cell_ip> -e <command>
+    exacli -l <username> -c <cell_ip> -e <command>  
