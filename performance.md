@@ -1,8 +1,7 @@
 [SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Tuning-Sets)  
-[Redo](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Redo)  
 [AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Automatic-Workload-Repository)  
-[SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Plan-Baselines)  
-[Redo switches](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Redo-log-switches-map)
+[SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Plan-Baselines) 
+[Redo](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Redo)  
 
 ---
 
@@ -78,13 +77,6 @@
     ORDER BY elapsed_time desc;
 
 
-### Redo
-
-#### Historical Redo Per Second
-
-    SELECT * FROM DBA_HIST_SYSMETRIC_HISTORY WHERE metric_name='Redo Generated Per Sec' ORDER BY snap_id DESC;  
-
-
 ### Automatic Workload Repository
 
 List AWR snapshots  
@@ -107,7 +99,13 @@ List SQL Plan Baselines
     select * from dba_sql_plan_baselines;  
 
 
-### Redo log switches map  
+### Redo
+
+#### Historical Redo Per Second
+
+    SELECT * FROM DBA_HIST_SYSMETRIC_HISTORY WHERE metric_name='Redo Generated Per Sec' ORDER BY snap_id DESC;  
+
+#### Redo log switches map  
 
     set pages 999 lines 400  
     col h0 format 999  
@@ -161,8 +159,8 @@ List SQL Plan Baselines
     SUM (DECODE (TO_CHAR (first_time, 'hh24'), '22', 1, 0)) "h22",  
     SUM (DECODE (TO_CHAR (first_time, 'hh24'), '23', 1, 0)) "h23",  
     ROUND (COUNT (1) / 24, 2) "Avg"  
-   FROM gv$log_history  
-   WHERE thread# = inst_id  
-   AND first_time > sysdate -7  
-   GROUP BY TRUNC (first_time), inst_id, TO_CHAR (first_time, 'Dy')  
-   ORDER BY 1,2;  
+    FROM gv$log_history  
+    WHERE thread# = inst_id  
+    AND first_time > sysdate -7  
+    GROUP BY TRUNC (first_time), inst_id, TO_CHAR (first_time, 'Dy')  
+    ORDER BY 1,2;  
