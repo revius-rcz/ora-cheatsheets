@@ -1,33 +1,34 @@
-The Application continuity is the feature built on top of RAC. When it is configured and drain timeout is reached, the connection is still terminated, but the operation is not interrupted - it is moved and replayed on available instance. This way instance unavailability can be hidden and be unnoticed by the application, it will only experience longer execution of the replayed operations. What is worth to notice, the Application Continuity can hide failures from application in following scenarios:
+The Application continuity is the feature built on top of RAC. When it is configured and drain timeout is reached, the connection is still terminated, but the operation is not interrupted - it is moved and replayed on available instance. This way instance unavailability can be hidden and be unnoticed by the application, it will only experience longer execution of the replayed operations. What is worth to notice, the Application Continuity can hide failures from application in following scenarios:  
 
 * planned maintenance tasks on RAC node  
 * unplanned failures  
 * Data Guard switchover  
-
-
+  
+  
 So it is not only for planned activities, but can also maintain application availability during unplanned incidents involving subset of RAC instances. 
+  
+  
+  
+Application Continuity - Planned Maintenance Demo (short video) - https://videohub.oracle.com/media/Application%20Continuity%20-%20Planned%20Maintenance%20Demo/1_xbd2fstx  
 
-
-
-Application Continuity - Planned Maintenance Demo (short video) - https://videohub.oracle.com/media/Application%20Continuity%20-%20Planned%20Maintenance%20Demo/1_xbd2fstx
-
-How Draining and Application Continuity Work for Maintenance with Oracle RAC - https://database-heartbeat.com/2023/11/01/draining-ac-rac/
-
-
-
-In short, steps to configure Application Continuity involve:
-
-DBA steps
-
-Setup database services
-Open port (default 6200)
-Grant keep on mutables
-Developer or App Owner steps:
-
-Configure to use recommended connection string (tnsnames or ldap)
-Update client to most recently available long-term version
-Explicit request boundaries or Connection tests
-Evaluate coverage (AWR, ACCHK)
+How Draining and Application Continuity Work for Maintenance with Oracle RAC - https://database-heartbeat.com/2023/11/01/draining-ac-rac/  
+  
+  
+  
+In short, steps to configure Application Continuity involve:  
+  
+**DBA steps**  
+  
+1. Setup database services  
+2. Open port (default 6200)  
+3. Grant keep on mutables  
+  
+**Developer or App Owner steps**  
+  
+1. Configure to use recommended connection string (tnsnames or ldap)
+2. Update client to most recently available long-term version
+3. Explicit request boundaries or Connection tests
+4. Evaluate coverage (AWR, ACCHK)
 
 
 
