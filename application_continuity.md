@@ -164,6 +164,6 @@ ADG - configure with Max Availability (recommended, not requirement)
 Additional resources  
 
 
-Fast Application Notification (FAN) - Oracle Notification Client and FAN
+### Fast Application Notification (FAN) - Oracle Notification Client and FAN
 
 Continuous Availability for Applications -https://docs.oracle.com/en/database/oracle/oracle-database/19/haovw/configuring-continuous-availability-applicationsconfiguring-continuous-availability-applicati.html#GUID-5EBF37EA-48AB-4508-A14E-86A2583A24BF 
