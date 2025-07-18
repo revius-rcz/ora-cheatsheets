@@ -1,4 +1,5 @@
 List monitored components  
+
     chactl status
 
 Run analysis for given time period  
