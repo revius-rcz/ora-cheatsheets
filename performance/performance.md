@@ -1,16 +1,16 @@
-[SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Tuning-Sets)  
-[AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Automatic-Workload-Repository)  
-[SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#SQL-Plan-Baselines)  
-[Redo](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Redo)  
+[SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#SQL-Tuning-Sets)  
+[AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#Automatic-Workload-Repository)  
+[SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#SQL-Plan-Baselines)  
+[Redo](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#Redo)  
 
 ---
 
 ### SQL Tuning Sets
 
-[List SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#List-SQL-Tuning-Sets)  
-[Delete SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#How-to-delete-existing-SQL-Tuning-Set)  
-[Create SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#How-to-create-new-SQL-Tuning-Set)  
-[Query SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#How-to-query-SQL-Tuning-Set)  
+[List SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#List-SQL-Tuning-Sets)  
+[Delete SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#How-to-delete-existing-SQL-Tuning-Set)  
+[Create SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#How-to-create-new-SQL-Tuning-Set)  
+[Query SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#How-to-query-SQL-Tuning-Set)  
 
 #### List SQL Tuning Sets
     select name, owner, created, statement_count from dba_sqlset;  
@@ -21,9 +21,9 @@
 #### How to create new SQL Tuning Set
     execute dbms_sqltune.create_sqlset(sqlset_name=>'<sts_name>', sqlset_owner=>'<sts_owner>', description=>'<some_description>');  
 
-[Populate SQL Tuning Set from cache](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Populate-SQL-Tuning-Set-with-queries-from-cache)  
-[Populate SQL Tuning Set from AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Populate-SQL-Tuning-Set-from-AWR)  
-[Populate SQL Tuning Set from another SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#Populate-SQL-Tuning-Set-from-another-SQL-Tuning-Set)  
+[Populate SQL Tuning Set from cache](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#Populate-SQL-Tuning-Set-with-queries-from-cache)  
+[Populate SQL Tuning Set from AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#Populate-SQL-Tuning-Set-from-AWR)  
+[Populate SQL Tuning Set from another SQL Tuning Set](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#Populate-SQL-Tuning-Set-from-another-SQL-Tuning-Set)  
 
 ##### Populate SQL Tuning Set with queries from cache
 
@@ -79,10 +79,10 @@
 
 ### Automatic Workload Repository  
   
-[List AWR snapshots](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#List-AWR-snapshots)  
-[PDB related configuration for AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#PDB-related-configuration-for-AWR)  
-[AWR configuration](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#AWR-configuration)  
-[How to query AWR repository](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#How-to-query-AWR-repository)
+[List AWR snapshots](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#List-AWR-snapshots)  
+[PDB related configuration for AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#PDB-related-configuration-for-AWR)  
+[AWR configuration](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#AWR-configuration)  
+[How to query AWR repository](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#How-to-query-AWR-repository)
   
 #### List AWR snapshots  
 
