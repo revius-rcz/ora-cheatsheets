@@ -79,10 +79,10 @@
 
 ### Automatic Workload Repository  
   
-[List AWR snapshots](https://github.com/revius-rcz/ora-cheatsheets/main/performance.md#List-AWR-snapshots)  
-[PDB related configuration for AWR](https://github.com/revius-rcz/ora-cheatsheets/main/performance.md#PDB-related-configuration-for-AWR)  
-[AWR configuration](https://github.com/revius-rcz/ora-cheatsheets/main/performance.md#AWR-configuration)  
-[How to query AWR repository](https://github.com/revius-rcz/ora-cheatsheets/main/performance.md#How-to-query-AWR-repository)
+[List AWR snapshots](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#List-AWR-snapshots)  
+[PDB related configuration for AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#PDB-related-configuration-for-AWR)  
+[AWR configuration](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#AWR-configuration)  
+[How to query AWR repository](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance.md#How-to-query-AWR-repository)
   
 #### List AWR snapshots  
 
