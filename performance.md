@@ -77,19 +77,26 @@
     ORDER BY elapsed_time desc;
 
 
-### Automatic Workload Repository
-
-List AWR snapshots  
+### Automatic Workload Repository  
+  
+[List AWR snapshots](https://github.com/revius-rcz/ora-cheatsheets/edit/main/performance.md#List-AWR-snapshots)  
+[PDB related configuration for AWR](https://github.com/revius-rcz/ora-cheatsheets/edit/main/performance.md#PDB-related-configuration-for-AWR)  
+[AWR configuration](https://github.com/revius-rcz/ora-cheatsheets/edit/main/performance.md#AWR-configuration)  
+[How to query AWR repository](https://github.com/revius-rcz/ora-cheatsheets/edit/main/performance.md#How-to-query-AWR-repository)
+  
+#### List AWR snapshots  
 
     SELECT snap_id, begin_interval_time begin_snap, end_interval_time end_snap FROM dba_hist_snapshot ORDER BY snap_id;  
 
-PDB related configuration for AWR  
+#### PDB related configuration for AWR  
 
     select inst_id, con_id, name, display_value from gv$system_parameter where name in ('awr_pdb_autoflush_enabled', 'awr_snapshot_time_offset') order by inst_id, con_id;  
 
-AWR configuration  
+#### AWR configuration  
 
     select * from dba_HIST_WR_CONTROL where dbid in (select dbid from v$containers where name != 'PDB$SEED');  
+
+#### How to query AWR repository  
 
 
 ### SQL Plan Baselines
