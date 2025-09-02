@@ -9,3 +9,8 @@ https://blogs.oracle.com/exadata/category/exa-exadata-updates
 
 [24.x](https://docs.oracle.com/en/engineered-systems/exadata-database-machine/dbmso/new-features-exadata-system-software-release-24.html)  
 [25.x](https://docs.oracle.com/en/engineered-systems/exadata-database-machine/dbmso/new-features-exadata-system-software-release-25.html)  
+
+
+#### Exadata notes
+
+https://blogs.oracle.com/exadata/post/exadata-mos-notes
