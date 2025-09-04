@@ -2,33 +2,32 @@ How to identify the Reasons for the Increasing TEMP Tablespace Usage in Oracle 1
 
 ### SQL query for assessing both used and available space within the temporary tablespace  
 
-    SELECT *  
-    FROM  
-    (SELECT a.tablespace_name,  
-    SUM(a.bytes/1024/1024) allocated_mb  
-    FROM dba_temp_files a  
-    WHERE a.tablespace_name = 'TEMP'  
-    GROUP BY a.tablespace_name  
-    ) x,  
-    (SELECT SUM(b.bytes_used/1024/1024) used_mb,  
-    SUM(b.bytes_free /1024/1024) free_mb  
-    FROM v$temp_space_header b  
-    WHERE b.tablespace_name = 'TEMP'  
-    GROUP BY b.tablespace_name  
-    );  
+    select a.tablespace_name tablespace,
+    d.TEMP_TOTAL_MB,
+    sum (a.used_blocks * d.block_size) / 1024 / 1024 TEMP_USED_MB,
+    d.TEMP_TOTAL_MB - sum (a.used_blocks * d.block_size) / 1024 / 1024 TEMP_FREE_MB
+    from v$sort_segment a,
+    (
+    select b.name, c.block_size, sum (c.bytes) / 1024 / 1024 TEMP_TOTAL_MB
+    from v$tablespace b, v$tempfile c
+    where b.ts#= c.ts#
+    group by b.name, c.block_size
+    ) d
+    where a.tablespace_name = d.name
+    group by a.tablespace_name, d.TEMP_TOTAL_MB;
 
-### Retrieve active sessions utilizing TEMP tablespace  
+### Check TEMP Space Usage by session
 
-    SELECT sysdate,a.username, a.sid, a.serial#, a.osuser,  
-    (b.blocks*d.block_size)/1048576 MB_used, c.sql_text  
-    FROM v$session a, v$tempseg_usage b, v$sqlarea c,  
-    (select block_size from dba_tablespaces where tablespace_name='TEMP') d  
-    WHERE b.tablespace = 'TEMP'  
-    and a.saddr = b.session_addr  
-    AND c.address= a.sql_address  
-    AND c.hash_value = a.sql_hash_value  
-    AND (b.blocks*d.block_size)/1048576 > 1024  
-    ORDER BY b.tablespace, 6 desc;  
+    SELECT b.tablespace,
+    ROUND(((b.blocks*p.value)/1024/1024),2)||'M' AS temp_size,
+    a.inst_id as Instance,
+    a.sid||','||a.serial# AS sid_serial,
+    NVL(a.username, '(oracle)') AS username,
+    a.program, a.status, a.sql_id
+    FROM gv$session a, gv$sort_usage b, gv$parameter p
+    WHERE p.name = 'db_block_size' AND a.saddr = b.session_addr
+    AND a.inst_id=b.inst_id AND a.inst_id=p.inst_id
+    ORDER BY temp_size desc;
 
 
 ### Check TEMP Space Usage by SQL Statement
