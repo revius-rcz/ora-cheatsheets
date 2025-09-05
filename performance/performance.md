@@ -1,9 +1,46 @@
+[Redo](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#CPU-usage)  
 [SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#SQL-Tuning-Sets)  
 [AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#Automatic-Workload-Repository)  
 [SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#SQL-Plan-Baselines)  
 [Redo](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#Redo)  
 
 ---
+
+### CPU usage  
+
+    SELECT interval_end as time,
+           instance_number,
+           round((db_fg_cpu_usage_per_sec + db_bg_cpu_usage_per_sec)/100, 2) as db_cpu_usage_per_sec,
+           round(host_cpu_usage_per_sec/100, 2) as host_cpu_usage_per_sec,
+           db_cpu_count as db_cpu_capacity_per_sec,
+           host_cpu_count as host_cpu_capacity_per_sec,
+           ((round(host_cpu_usage_per_sec/100, 2)*100)/host_cpu_count) as host_cpu_usage_percentage,
+           ((round((db_fg_cpu_usage_per_sec + db_bg_cpu_usage_per_sec)/100, 2)*100)/db_cpu_count) as db_cpu_usage_percentage_dbcount,
+           ((round((db_fg_cpu_usage_per_sec + db_bg_cpu_usage_per_sec)/100, 2)*100)/host_cpu_count)as db_cpu_usage_percentage_hostcount
+    FROM
+    (SELECT * FROM
+        (WITH db_cpu_count as (select display_value as db_cpu_count from v$parameter where name='cpu_count'),
+              host_cpu_count as (select value as host_cpu_count from v$osstat where stat_name='NUM_CPUS')
+        SELECT
+            metric_name,
+            TO_CHAR(begin_time, 'YYYY-MM-DD HH24:MI') AS interval_start,
+            TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI') AS interval_end,
+            value,
+            instance_number,
+            (select db_cpu_count from db_cpu_count) as db_cpu_count,
+            (select host_cpu_count from host_cpu_count) as host_cpu_count
+        FROM
+            dba_hist_sysmetric_history
+        WHERE
+            metric_name in ('CPU Usage Per Sec','Host CPU Usage Per Sec', 'Background CPU Usage Per Sec'))
+    PIVOT (
+        AVG(value)
+        FOR metric_name in ('CPU Usage Per Sec' as db_fg_cpu_usage_per_sec,
+                        'Background CPU Usage Per Sec' as db_bg_cpu_usage_per_sec,
+                        'Host CPU Usage Per Sec' as host_cpu_usage_per_sec)
+    )) order by time;
+
+
 
 ### SQL Tuning Sets
 
