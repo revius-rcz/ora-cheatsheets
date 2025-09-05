@@ -1,4 +1,4 @@
-[Redo](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#CPU-usage)  
+[CPU usage](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#CPU-usage)  
 [SQL Tuning Sets](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#SQL-Tuning-Sets)  
 [AWR](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#Automatic-Workload-Repository)  
 [SQL Plan Baselines](https://github.com/revius-rcz/ora-cheatsheets/blob/main/performance/performance.md#SQL-Plan-Baselines)  
