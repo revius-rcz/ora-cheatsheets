@@ -19,8 +19,8 @@
 #### Delete database home
     oci db db-home delete --db-home-id <dbhome_ocid>  
 
-#### Run precheck for GI patching
+#### Run precheck for GI patching using image
     oci db vm-cluster update --vm-cluster-id <vmcluster_ocid> --gi-image-id <image_ocid> --patch-action PRECHECK  
 
-#### Run precheck for GI patching
+#### Run GI patching using image
     oci db vm-cluster update --vm-cluster-id <vmcluster_ocid> --gi-image-id <image_ocid> --patch-action APPLY  
