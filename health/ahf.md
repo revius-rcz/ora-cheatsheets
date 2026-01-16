@@ -1,3 +1,23 @@
+
+### AHF update
+
+1. Get staging directory (as root):  
+    ``ahfctl getupgrade | grep autoupgrade.swstage | cut -d: -f2 | sed 's/ //g' ``   
+Return error if empty string received.  
+2. Get status and version of AHF before the upgrade(as root):  
+``ahfctl statusahf -tfa``  
+3. Check if staging directory exists and create it if it doesn’t  
+4. Remove all existing content of staging directory  
+5. Get AHF package, copy it to staging directory and unzip it.  
+Here we need to discuss what are the options where we could put the package in the first place, so it would be available to Ansible. Perhaps Artifactory ?  
+6. Run the upgrade (as root):  
+``ahfctl upgrade``  
+7. Check status after the upgrade (as root):  
+``ahfctl statusahf -tfa``  
+8. Clean up staging directory  
+
+
+
 ### Exachk
 
 
