@@ -42,6 +42,18 @@ While running exachk, following checks can be skipped as they are of no importan
 
     ahfctl compliance -a -dball -noupgrade -excludecheck D9321653EB0CA241E053D498EB0A6CE1,A98AC77CA837A489E040E50A1EC014A6,0E74F80547F37AF7E0639912F50A7B06,ED2A765922CCB9A0E053D298EB0A512A,AACE397A971608F0E040E50A1EC03350,E34A916A4A5E6B15E04312C0E50A509B,082611CF6909295EE05313C0E50A6BCF,FF4C0F0453F19778E0539A12F50A3007,FF397079FD8D96B3E0539912F50AC837  
 
+#### Default excluded checks  
+Print default excluded checks:  
+``ahf configuration get --property ahf.compliance.excluded-check-ids``  
+
+To exclude check id:  
+``ahf configuration set --property ahf.compliance.excluded-check-ids --value F3B1F6668255A1E2E053D298EB0A88A7,DDAC922A1762467BE053D498EB0A9DF6,D9321653EB0CA241E053D498EB0A6CE1,A98AC77CA837A489E040E50A1EC014A6,0E74F80547F37AF7E0639912F50A7B06,ED2A765922CCB9A0E053D298EB0A512A,AACE397A971608F0E040E50A1EC03350,082611CF6909295EE05313C0E50A6BCF,FF4C0F0453F19778E0539A12F50A3007,FF397079FD8D96B3E0539912F50AC837``  
+
+To unset all excluded checks:  
+``ahf configuration reset --property ahf.compliance.excluded-check-ids``  
+
+To unset selected check ids:  
+``ahf configuration unset --property ahf.compliance.excluded-check-ids --value FB7BBD8E8BC78623E0539812F50A0B81 ``  
 
 #### Include Oracle Security Assessment Tool checks  
 It is possible to run also checks from Oracle Security Assessment Tool (SAT)  
