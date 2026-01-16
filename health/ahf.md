@@ -60,6 +60,8 @@ It is possible to run also checks from Oracle Security Assessment Tool (SAT)
 
     ahfctl compliance -a -dball -noupgrade -includeprofile security  
 
+### TFA  
+
 
 #### Exachk execution before patching  
     ahfctl compliance -profile prepatch  
