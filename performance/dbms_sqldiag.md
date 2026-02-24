@@ -1,6 +1,4 @@
-Got it. Let’s pivot the focus back to the **`DBMS_SQLDIAG`** package as a whole. While SQL Patches are a popular feature, the package’s primary DNA is built around **SQL Diagnosis** (finding out *why* a query fails) and **SQL Test Cases** (reproducibility).
 
-Here is the updated, comprehensive markdown cheatsheet.
 
 ---
 
