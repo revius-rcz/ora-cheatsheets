@@ -1,85 +1,92 @@
+Got it. Let’s pivot the focus back to the **`DBMS_SQLDIAG`** package as a whole. While SQL Patches are a popular feature, the package’s primary DNA is built around **SQL Diagnosis** (finding out *why* a query fails) and **SQL Test Cases** (reproducibility).
+
+Here is the updated, comprehensive markdown cheatsheet.
 
 ---
 
-# Oracle DBMS_SQLDIAG Cheatsheet
+# 🛠️ Oracle Cheatsheet: DBMS_SQLDIAG Package
 
-`DBMS_SQLDIAG` is a powerful administrative package used primarily for **SQL Patching**, diagnosing SQL failures, and creating **SQL Test Cases**. It allows DBAs to influence the Optimizer without changing application source code.
+The `DBMS_SQLDIAG` package is the interface for the **SQL Diagnosability Framework**. It is designed to identify, analyze, and bypass problematic SQL statements that cause performance regressions or ORA-errors.
 
-## 1. What is a SQL Patch?
+## 1. Package Overview
 
-A **SQL Patch** is a collection of optimizer hints stored in the data dictionary and associated with a specific `SQL_ID` or SQL text.
+`DBMS_SQLDIAG` operates across three main pillars:
 
-* **Use Case:** When a query performs poorly but the source code cannot be modified (e.g., vendor software).
-* **Mechanism:** When the Optimizer parses a statement, it checks for an associated patch and transparently applies the hints.
-* **Stability:** Unlike Baselines, Patches are "lightweight" and don't lock a full plan; they only apply specific corrective hints (e.g., `INDEX`, `LEADING`, `PARALLEL`).
-
----
-
-## 2. Core Functionalities
-
-| Feature | Description |
-| --- | --- |
-| **SQL Patching** | Create, drop, and alter hints applied to a specific `SQL_ID`. |
-| **SQL Test Case** | Export/Import all metadata, stats, and environment data to reproduce a SQL issue on another DB. |
-| **Diagnostic Tracing** | Identify why a SQL statement failed with an error (e.g., ORA-00600). |
+1. **Incident Diagnosis:** Automated analysis of SQL that produces errors (e.g., ORA-00600).
+2. **SQL Test Case (STC):** Packaging all dependencies (metadata, stats, data samples) to reproduce a plan on another environment.
+3. **SQL Patching:** Applying "emergency" optimizer hints to a `SQL_ID` without changing code.
 
 ---
 
-## 3. Usage Examples: SQL Patches
+## 2. SQL Test Case (The "Portability" Tool)
 
-### A. Create a Patch for a specific SQL_ID
+This is used when you need to send a problematic query to Oracle Support or a Dev environment. It creates a `.zip` or a directory of scripts to recreate the exact environment.
 
-This applies hints to a query currently sitting in the Library Cache.
+### Exporting a Test Case
 
 ```sql
-DECLARE
-  v_patch_name VARCHAR2(30);
 BEGIN
-  v_patch_name := DBMS_SQLDIAG.CREATE_SQL_PATCH(
-    sql_id      => '8998pf78abc12',
-    hints       => 'INDEX(@SEL$1 "EMPLOYEES" "EMP_IDX") USE_NL(e d)',
-    name        => 'EMP_NL_PATCH',
-    description => 'Force Nested Loops and specific index usage'
+  DBMS_SQLDIAG.EXPORT_SQL_TESTCASE (
+    directory => 'DATA_PUMP_DIR',
+    sql_id    => '8998pf78abc12',
+    filename  => 'sql_issue_8998.zip'
   );
 END;
 /
 
 ```
 
-### B. Create a Patch via SQL Text (For AWR/Historical SQL)
+### Key Parameters for STC:
 
-Use this if the SQL is no longer in the cache but you have the text.
+* **`export_data`**: (Boolean) Whether to include a sample of the actual data (default is FALSE, metadata only).
+* **`export_pkg_body`**: Includes PL/SQL package bodies if the SQL calls them.
+* **`explain`**: Runs an explain plan and includes it in the bundle.
+
+---
+
+## 3. SQL Diagnosis (The "Doctor" Tool)
+
+Used to diagnose SQL statements that are failing or triggering internal errors.
+
+### Identify a Problematic SQL
+
+```sql
+DECLARE
+  v_report CLOB;
+BEGIN
+  -- Generates a report on a specific SQL execution incident
+  v_report := DBMS_SQLDIAG.REPORT_DIAGNOSIS (
+    incident_id => 12345, 
+    type        => 'TEXT'
+  );
+  DBMS_OUTPUT.PUT_LINE(v_report);
+END;
+/
+
+```
+
+### Common Procedures:
+
+| Procedure | Description |
+| --- | --- |
+| `DUMP_TRACE` | Dumps the optimizer trace (10053) for a specific SQL. |
+| `INCIDENT_CHECK` | Checks if a SQL statement is likely to trigger a known incident. |
+
+---
+
+## 4. SQL Patching (The "Fix" Tool)
+
+A SQL Patch is a "hint-on-the-side." It allows you to inject hints into a query's compilation phase based on its `SQL_ID`.
+
+**Quick Creation:**
 
 ```sql
 BEGIN
   SYS.DBMS_SQLDIAG.CREATE_SQL_PATCH(
-    sql_text    => 'SELECT * FROM orders WHERE status = :1',
-    hints       => 'PARALLEL(4)',
-    name        => 'ORDER_PARALLEL_PATCH'
+    sql_id => 'g33p678abc',
+    hints  => 'INDEX(@SEL$1 "TAB1" "TAB1_PK")',
+    name   => 'FIX_TAB1_SCAN'
   );
-END;
-/
-
-```
-
-### C. Disable or Drop a Patch
-
-If the patch is no longer needed or you want to test the original plan.
-
-```sql
--- Disable the patch temporarily
-BEGIN
-  DBMS_SQLDIAG.ALTER_SQL_PATCH(
-    name            => 'EMP_NL_PATCH',
-    attribute_name  => 'STATUS',
-    value           => 'DISABLED'
-  );
-END;
-/
-
--- Drop the patch permanently
-BEGIN
-  DBMS_SQLDIAG.DROP_SQL_PATCH(name => 'EMP_NL_PATCH');
 END;
 /
 
@@ -87,72 +94,52 @@ END;
 
 ---
 
-## 4. Useful Data Dictionary Views
+## 5. Related Views & Useful Queries
 
-| View | Purpose |
-| --- | --- |
-| **`DBA_SQL_PATCHES`** | Shows patch name, status (ENABLED/DISABLED), and the hint text. |
-| **`V$SQL`** | Check the `SQL_PATCH` column to see if a cursor is actively using a patch. |
-| **`V$SQL_DIAG_REPOSITORY`** | Contains history of diagnostic incidents and SQL failures. |
-
----
-
-## 5. Essential Monitoring Queries
-
-### List all active SQL Patches
+### View the SQL Framework Repository
 
 ```sql
-SELECT 
-    name, 
-    status, 
-    force_matching, 
-    last_modified, 
-    description 
+-- See recorded incidents and diagnostic data
+SELECT incident_id, problem_key, create_time 
+FROM v$sql_diag_repository 
+ORDER BY create_time DESC;
+
+```
+
+### Check SQL Patch Status
+
+```sql
+SELECT name, status, force_matching 
 FROM dba_sql_patches;
 
 ```
 
-### Verify if a query is using a Patch
-
-Check the `SQL_PATCH` column. If it is NOT NULL, the patch is active for that cursor.
+### Identify SQL using Patches in the Cursor Cache
 
 ```sql
-SELECT 
-    sql_id, 
-    child_number, 
-    plan_hash_value, 
-    sql_patch 
-FROM v$sql 
-WHERE sql_id = '&your_sql_id';
-
-```
-
-### Extract hints from an existing Patch
-
-Hints are stored in a CLOB in the `comp_data` column.
-
-```sql
-SELECT 
-    name, 
-    extractValue(value(t), '/hint') as hint
-FROM 
-    dba_sql_patches, 
-    table(xmlsequence(extract(xmltype(comp_data), '/outline_data/hint'))) t
-WHERE name = 'EMP_NL_PATCH';
+SELECT sql_id, child_number, sql_patch, last_active_time
+FROM v$sql
+WHERE sql_patch IS NOT NULL;
 
 ```
 
 ---
 
-## 6. Pro-Tips
+## 6. Summary Table: Functions vs. Use Cases
 
-* **Force Matching:** By default, patches only match if the SQL text is identical. You can set `force_matching => TRUE` in `CREATE_SQL_PATCH` to ignore literal values (similar to `CURSOR_SHARING=FORCE`).
-* **Validation:** Always run `EXPLAIN PLAN` or check `DBMS_XPLAN.DISPLAY_CURSOR`. A successful patch will show a "Note" section at the bottom:
-> *Note: SQL patch "PATCH_NAME" used for this statement*
-
-
-* **Security:** Executing `DBMS_SQLDIAG` typically requires the `ADMINISTER SQL MANAGEMENT OBJECT` privilege.
+| Function/Procedure | Target | Use Case |
+| --- | --- | --- |
+| `CREATE_SQL_PATCH` | Optimizer | Force a better plan without code change. |
+| `EXPORT_SQL_TESTCASE` | Portability | Package a bug for Oracle Support/QA. |
+| `ACCEPT_SQL_PATCH` | Management | Accept a patch recommended by the SQL Repair Advisor. |
+| `REPORT_DIAGNOSIS` | Analysis | Get a detailed report on why a SQL failed. |
 
 ---
 
-Would you like me to generate a script to automate the export of a **SQL Test Case** using this package?
+## 7. Useful Tips
+
+* **Permissions:** You need the `ADMINISTER SQL DIAGNOSIS ANY` or `ADMINISTER SQL MANAGEMENT OBJECT` privilege.
+* **The "Note" Section:** Always check the bottom of `dbms_xplan.display_cursor`. If `DBMS_SQLDIAG` is active, it will say: `SQL patch "NAME" used for this statement`.
+* **Force Matching:** Use `force_matching => TRUE` if your application uses literals instead of bind variables.
+
+Would you like me to create a script that combines **SQL Repair Advisor** with `DBMS_SQLDIAG` to automatically find and patch failing SQL?
