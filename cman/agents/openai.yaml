@@ -1,0 +1,5 @@
+interface:
+  display_name: "Oracle Connection Manager"
+  short_description: "Configure and operate Oracle CMAN safely"
+  default_prompt: "Use $oracle-connection-manager to configure and verify a secure Oracle Connection Manager deployment."
+
