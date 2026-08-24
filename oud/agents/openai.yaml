@@ -1,0 +1,4 @@
+interface:
+  display_name: "Oracle Unified Directory"
+  short_description: "Operate and troubleshoot Oracle OUD safely"
+  default_prompt: "Use $oracle-unified-directory to manage Oracle Net aliases and operate an existing OUD environment safely."
