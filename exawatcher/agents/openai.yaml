@@ -1,0 +1,4 @@
+interface:
+  display_name: "Oracle ExaWatcher"
+  short_description: "Operate and troubleshoot ExaWatcher safely"
+  default_prompt: "Use $oracle-exawatcher to collect and analyze ExaWatcher evidence for an Exadata incident."
